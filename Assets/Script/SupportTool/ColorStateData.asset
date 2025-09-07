@@ -12,5 +12,5 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 43a8fcccb3c2d4848a533cb570db2015, type: 3}
   m_Name: ColorStateData
   m_EditorClassIdentifier: 
-  red: '#'
-  green: '##'
+  red: '##'
+  green: '#'
