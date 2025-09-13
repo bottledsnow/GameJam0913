@@ -1,3 +1,4 @@
+using System;
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
@@ -13,6 +14,7 @@ namespace SceneObjects
     ///   at riseRate after a configurable delay (lightOnTime). After LightOn is called
     ///   the room is invincible for invincibleTime seconds and will not go dark.
     /// - A static method provides the average rate across all LightRoom instances.
+    /// - This class provides C# events for frontend/UI to react to light on/off transitions.
     /// </summary>
     [RequireComponent(typeof(Collider))]
     public class LightRoom : MonoBehaviour
@@ -49,6 +51,11 @@ namespace SceneObjects
         // Tracks temporary invincibility after LightOn is called.
         private bool invincible = false;
 
+        [Tooltip("C# event invoked when the room transitions from dark to light.")]
+        public event Action LightTurnedOn;
+        [Tooltip("C# event invoked when the room transitions from light to dark.")]
+        public event Action LightTurnedOff;
+
         // Public accessors
         public bool LightOut => lightout;
         public float Rate => rate;
@@ -67,6 +74,7 @@ namespace SceneObjects
             riseCoroutine = null;
             invincibleCoroutine = null;
             invincible = false;
+            // Consumers may unsubscribe from C# events; we don't clear them here automatically.
         }
 
         private void Awake()
@@ -127,6 +135,11 @@ namespace SceneObjects
             if (invincible)
                 return;
 
+            // If already lightout, nothing to do.
+            if (lightout)
+                return;
+
+            // Transition to dark state.
             lightout = true;
 
             // When room goes dark, set rate to 1 immediately and stop rise coroutine.
@@ -137,6 +150,16 @@ namespace SceneObjects
                 StopCoroutine(riseCoroutine);
                 riseCoroutine = null;
             }
+
+            // Notify subscribers/listeners about the light-off transition.
+            try
+            {
+                LightTurnedOff?.Invoke();
+            }
+            catch (Exception)
+            {
+                // Swallow exceptions from external subscribers to avoid breaking game loop.
+            }
         }
 
         /// <summary>
@@ -146,8 +169,24 @@ namespace SceneObjects
         /// </summary>
         public void LightOn()
         {
+            // Track whether we are transitioning from dark to light so we can fire events only on change.
+            bool wasLightOut = lightout;
+
             // Clear dark state immediately.
             lightout = false;
+
+            // If we transitioned from dark -> light, notify listeners.
+            if (wasLightOut)
+            {
+                try
+                {
+                    LightTurnedOn?.Invoke();
+                }
+                catch (Exception)
+                {
+                    // Swallow exceptions from external subscribers to avoid breaking game loop.
+                }
+            }
 
             // Cancel any pending player-triggered coroutine — once light is forcibly turned on,
             // we don't want it immediately to be set dark again by an already-pending timer.
