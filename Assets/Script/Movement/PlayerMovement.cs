@@ -9,7 +9,7 @@ namespace Movement
         [Tooltip("Movement speed in units per second.")]
         [SerializeField] private float speed = 5f;
 
-        [SerializeField] private Rigidbody2D rb;
+        [SerializeField] private Rigidbody rb;
 
         // Frontend-facing event: subscribers receive the current move vector (X,Y) whenever it changes.
         public event Action<Vector2> onMoveChanged;
@@ -19,7 +19,7 @@ namespace Movement
 
         private void OnValidate()
         {
-            rb = GetComponent<Rigidbody2D>();
+            rb = GetComponent<Rigidbody>();
         }
 
         private void OnEnable()

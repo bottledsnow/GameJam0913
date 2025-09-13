@@ -2,7 +2,6 @@ using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 using Movement;
-using UnityEditor;
 
 namespace SceneObjects
 {
@@ -11,10 +10,11 @@ namespace SceneObjects
     /// - If a Player stays inside the collider for more than secBeforeLightOut seconds,
     ///   the room becomes lightout and rate is set to 1.
     /// - External actors can call LightOn() to clear lightout and start the rate rising
-    ///   at riseRate until it reaches a maximum of 5.
+    ///   at riseRate after a configurable delay (lightOnTime). After LightOn is called
+    ///   the room is invincible for invincibleTime seconds and will not go dark.
     /// - A static method provides the average rate across all LightRoom instances.
     /// </summary>
-    [RequireComponent(typeof(Collider2D))]
+    [RequireComponent(typeof(Collider))]
     public class LightRoom : MonoBehaviour
     {
         [Tooltip("Time (in seconds) the player must stay in the trigger before the room goes dark.")] [SerializeField]
@@ -25,6 +25,12 @@ namespace SceneObjects
 
         [Tooltip("Maximum allowed value for 'rate'. When rising, rate will not exceed this value.")]
         [SerializeField] private float maxRate = 5f;
+
+        [Tooltip("Delay (in seconds) after LightOn is called before the rate actually starts to rise.")]
+        [SerializeField] private float lightOnTime = 0.5f;
+
+        [Tooltip("During this time (in seconds) after LightOn is called the room is invincible and will not go dark.")]
+        [SerializeField] private float invincibleTime = 1.5f;
 
         // Current rate value for this room.
         [SerializeField] private float rate = 0f;
@@ -38,6 +44,10 @@ namespace SceneObjects
         // Coroutines handles so we can cancel them when needed.
         private Coroutine playerWaitCoroutine;
         private Coroutine riseCoroutine;
+        private Coroutine invincibleCoroutine;
+
+        // Tracks temporary invincibility after LightOn is called.
+        private bool invincible = false;
 
         // Public accessors
         public bool LightOut => lightout;
@@ -55,12 +65,14 @@ namespace SceneObjects
             StopAllCoroutines();
             playerWaitCoroutine = null;
             riseCoroutine = null;
+            invincibleCoroutine = null;
+            invincible = false;
         }
 
         private void Awake()
         {
             // Ensure collider is a trigger (common for area detection).
-            var col = GetComponent<Collider2D>();
+            var col = GetComponent<Collider>();
             if (col != null && !col.isTrigger)
                 col.isTrigger = true;
 
@@ -69,7 +81,7 @@ namespace SceneObjects
             rate = maxRate;
         }
 
-        private void OnTriggerEnter2D(Collider2D other)
+        private void OnTriggerEnter(Collider other)
         {
             // Detect player by presence of PlayerMovement component.
             if (other.TryGetComponent<PlayerMovement>(out var _))
@@ -83,7 +95,7 @@ namespace SceneObjects
             // because that entity will call LightOn() directly when it enters; we provide LightOn() for it.
         }
 
-        private void OnTriggerExit2D(Collider2D other)
+        private void OnTriggerExit(Collider other)
         {
             // If player leaves before the timer elapses, cancel the lightout sequence.
             if (other.TryGetComponent<PlayerMovement>(out var _))
@@ -102,11 +114,19 @@ namespace SceneObjects
             yield return new WaitForSeconds(secBeforeLightOut);
             playerWaitCoroutine = null;
 
-            SetLightOut();
+            // Respect invincibility: don't turn off the light if we are in invincible state.
+            if (!invincible)
+            {
+                SetLightOut();
+            }
         }
 
         private void SetLightOut()
         {
+            // If we're invincible, ignore attempts to set light out.
+            if (invincible)
+                return;
+
             lightout = true;
 
             // When room goes dark, set rate to 1 immediately and stop rise coroutine.
@@ -121,11 +141,12 @@ namespace SceneObjects
 
         /// <summary>
         /// External callers (other entities) should call this to turn the light on.
-        /// It clears lightout and starts the rate rising toward the maximum (5).
+        /// It clears lightout, makes the room invincible for invincibleTime, and after
+        /// lightOnTime begins rising the rate toward the maximum (maxRate).
         /// </summary>
         public void LightOn()
         {
-            // Clear dark state
+            // Clear dark state immediately.
             lightout = false;
 
             // Cancel any pending player-triggered coroutine — once light is forcibly turned on,
@@ -136,15 +157,40 @@ namespace SceneObjects
                 playerWaitCoroutine = null;
             }
 
+            // Start invincibility window: stop existing one and begin a fresh timer.
+            if (invincibleCoroutine != null)
+            {
+                StopCoroutine(invincibleCoroutine);
+                invincibleCoroutine = null;
+            }
+            invincibleCoroutine = StartCoroutine(InvincibleCoroutine());
+
             // Start rising coroutine; cancel if already running to reset behaviour.
             if (riseCoroutine != null)
+            {
                 StopCoroutine(riseCoroutine);
+                riseCoroutine = null;
+            }
 
+            // Start rise coroutine which waits for lightOnTime before increasing the rate.
             riseCoroutine = StartCoroutine(RiseRateCoroutine());
+        }
+
+        private IEnumerator InvincibleCoroutine()
+        {
+            invincible = true;
+            // Keep invincibility for the configured time.
+            yield return new WaitForSeconds(invincibleTime);
+            invincible = false;
+            invincibleCoroutine = null;
         }
 
         private IEnumerator RiseRateCoroutine()
         {
+            // Wait the configured delay before starting to increase rate.
+            if (lightOnTime > 0f)
+                yield return new WaitForSeconds(lightOnTime);
+
             // Increase rate smoothly up to the configurable maximum (maxRate).
             while (rate < maxRate)
             {
