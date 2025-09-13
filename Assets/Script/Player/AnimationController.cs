@@ -34,6 +34,10 @@ public class DirectionRotationData
 
 public class AnimationController : MonoBehaviour
 {
+    public bool testPlayAnimation = false; // 測試用，啟動時自動播放動畫
+    public AnimationStateEnum testAnimationState = AnimationStateEnum.Idle; // 測試
+    public Move testMoveDirection = Move.Down; // 測試用移動方向
+
     [SerializeField] private Animator animator;
     
     [SerializeField] public List<CharacterAnimationData> characterAnimationList = new List<CharacterAnimationData>
@@ -79,7 +83,11 @@ public class AnimationController : MonoBehaviour
 
     void Update()
     {
-
+        if (testPlayAnimation)
+        {
+            testPlayAnimation = false; // 重置測試標誌
+            ChangeCharacterState(testAnimationState, testMoveDirection);
+        }
     }
     
     // 使用當前面向切換動作狀態
