@@ -4,7 +4,7 @@ using UnityEngine;
 
 namespace Movement
 {
-    [RequireComponent(typeof(UnityEngine.Collider),typeof(PlayerMovement))]
+    [RequireComponent(typeof(Collider),typeof(PlayerMovement))]
     public class PlayerCollider : MonoBehaviour
     {
         [SerializeField] private float interruptTime = 3f;
@@ -16,7 +16,7 @@ namespace Movement
             movement = GetComponent<PlayerMovement>();
         }
 
-        private void OnTriggerEnter(UnityEngine.Collider other)
+        private void OnTriggerEnter(Collider other)
         {
             StartCoroutine(InterruptMovement());
         }
