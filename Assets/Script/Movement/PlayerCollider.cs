@@ -2,9 +2,9 @@ using System.Collections;
 using Movement;
 using UnityEngine;
 
-namespace Collider
+namespace Movement
 {
-    [RequireComponent(typeof(Collider2D),typeof(PlayerMovement))]
+    [RequireComponent(typeof(UnityEngine.Collider),typeof(PlayerMovement))]
     public class PlayerCollider : MonoBehaviour
     {
         [SerializeField] private float interruptTime = 3f;
@@ -16,7 +16,7 @@ namespace Collider
             movement = GetComponent<PlayerMovement>();
         }
 
-        private void OnTriggerEnter2D(Collider2D other)
+        private void OnTriggerEnter(UnityEngine.Collider other)
         {
             StartCoroutine(InterruptMovement());
         }
