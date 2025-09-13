@@ -12,7 +12,6 @@ public class CharacterAnimationStateData
     {
         this.state = state;
         this.animationName = animationName;
-        this.isLoop = isLoop;
     }
 
     public class DirectionRotationData

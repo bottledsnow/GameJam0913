@@ -7,10 +7,11 @@ using static CharacterAnimationStateData;
 public class CharacterAnimationController : MonoBehaviour
 {
     [Header("Animation Settings")]
-    [SerializeField] private Animator  animator;
+    [SerializeField] private Animator animator;
 
     [Header("State Configuration")]
-    [SerializeField] public List<CharacterAnimationStateData> stateSettings = new List<CharacterAnimationStateData>
+    [SerializeField]
+    public List<CharacterAnimationStateData> stateSettings = new List<CharacterAnimationStateData>
     {
         new CharacterAnimationStateData(AnimationStateEnum.Idle, "Idle", true),
         new CharacterAnimationStateData(AnimationStateEnum.Walk, "Walk", true),
@@ -23,7 +24,8 @@ public class CharacterAnimationController : MonoBehaviour
     public bool testPlayAnimation = false; // 測試用，啟動時自動播放動畫
 
     [Header("Direction Configuration")]
-    [SerializeField] public List<DirectionRotationData> directionSettings = new List<DirectionRotationData>
+    [SerializeField]
+    public List<DirectionRotationData> directionSettings = new List<DirectionRotationData>
     {
         new DirectionRotationData(Move.Up, 0f),
         new DirectionRotationData(Move.Down, 180f),
@@ -56,6 +58,7 @@ public class CharacterAnimationController : MonoBehaviour
         if (testPlayAnimation)
         {
             testPlayAnimation = false;
+            ChangeState(currentState);
             Debug.Log($"[Test] Playing animation: {currentState} facing {currentMove}");
         }
     }
@@ -79,6 +82,7 @@ public class CharacterAnimationController : MonoBehaviour
     // 切換狀態和面向
     public void ChangeStateAndFacing(AnimationStateEnum state, Move direction)
     {
+        Debug.Log($"ChangeStateAndFacing called with state: {state}, direction: {direction}");
         if (animator == null)
         {
             Debug.LogWarning("Animator is not assigned!");
@@ -90,17 +94,12 @@ public class CharacterAnimationController : MonoBehaviour
 
         string animationName = GetAnimationName(state);
 
+        Debug.Log($"animationName: {animationName}, state: {state}, direction: {direction}");
         if (!string.IsNullOrEmpty(animationName))
         {
             Debug.Log($"Playing animation: {animationName}");
             animator.Play(animationName, 0, 0f);
             ApplyRotation(direction);
-
-            var animationData = GetAnimationData(state);
-            if (animationData != null && !animationData.isLoop)
-            {
-                StartCoroutine(WaitForAnimationComplete(animationName));
-            }
         }
         else
         {
@@ -121,7 +120,7 @@ public class CharacterAnimationController : MonoBehaviour
     // 獲取動畫名稱
     public string GetAnimationName(AnimationStateEnum state)
     {
-        var animationData = stateSettings.FirstOrDefault(x => x.state == state);
+        var animationData = stateSettings.Find(x => x.state == state);
         return animationData?.animationName;
     }
 
@@ -129,41 +128,5 @@ public class CharacterAnimationController : MonoBehaviour
     public CharacterAnimationStateData GetAnimationData(AnimationStateEnum state)
     {
         return stateSettings.FirstOrDefault(x => x.state == state);
-    }
-
-    // 檢查動畫是否循環播放
-    public bool ShouldAnimationLoop(AnimationStateEnum state)
-    {
-        var animationData = GetAnimationData(state);
-        return animationData?.isLoop ?? true;
-    }
-
-    // 檢查是否有指定狀態的動畫
-    public bool HasAnimation(AnimationStateEnum state)
-    {
-        return stateSettings.Any(x => x.state == state);
-    }
-
-    // 等待動畫播放完成
-    private System.Collections.IEnumerator WaitForAnimationComplete(string animationName)
-    {
-        yield return null;
-        while (animator.GetCurrentAnimatorStateInfo(0).IsName(animationName) &&
-               animator.GetCurrentAnimatorStateInfo(0).normalizedTime < 1.0f)
-        {
-            yield return null;
-        }
-        OnAnimationComplete(currentState);
-    }
-
-    // 動畫完成事件
-    protected virtual void OnAnimationComplete(AnimationStateEnum completedState)
-    {
-        Debug.Log($"Animation {completedState} completed!");
-
-        if (completedState == AnimationStateEnum.Scare)
-        {
-            ChangeState(AnimationStateEnum.Idle);
-        }
     }
 }
