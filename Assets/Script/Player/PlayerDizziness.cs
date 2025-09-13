@@ -1,16 +1,49 @@
+using Movement;
 using UnityEngine;
+using System.Collections;
+using System.Linq;
 
 public class PlayerDizziness : MonoBehaviour
 {
-    // Start is called once before the first execution of Update after the MonoBehaviour is created
-    void Start()
+    [SerializeField] private ParticleSystem Parti_Dizz;
+    private PlayerMovement playerMovement;
+    private float playermovespeed;
+    private bool isDizziness = false;
+    [SerializeField] private float dizzinessTime = 3.00f;
+
+    private void Awake()
     {
-        
+        Parti_Dizz.startLifetime = dizzinessTime;
+        playerMovement = GetComponent<PlayerMovement>();
+        playermovespeed = playerMovement.speed;
     }
 
-    // Update is called once per frame
-    void Update()
+    private void FixedUpdate()
     {
-        
+        if(!isDizziness && playerMovement.speed != playermovespeed)
+        {
+            playerMovement.speed = playermovespeed;
+        }
+    }
+    private void OnTriggerEnter(Collider other)
+    {
+        if(other.gameObject.tag == "EnemyDamage")
+        {
+            if (!isDizziness)
+            {
+                StartCoroutine(dizziness());
+            }
+        }
+    }
+    IEnumerator dizziness()
+    {
+        Parti_Dizz.Clear();
+        Parti_Dizz.Play();
+        playerMovement.speed = 0;
+        isDizziness = true;
+        yield return new WaitForSeconds(dizzinessTime); // ¨ü timeScale ¼vÅT
+        playerMovement.speed = playermovespeed;
+        isDizziness = false;
+        Parti_Dizz.Clear();
     }
 }

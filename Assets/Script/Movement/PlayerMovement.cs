@@ -7,7 +7,7 @@ namespace Movement
     {
         [Header("Movement Settings")]
         [Tooltip("Movement speed in units per second.")]
-        [SerializeField] private float speed = 5f;
+         public float speed = 5f;
 
         [SerializeField] private Rigidbody rb;
 
