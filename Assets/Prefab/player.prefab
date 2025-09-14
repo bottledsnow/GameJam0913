@@ -5256,6 +5256,8 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   Parti_Dizz: {fileID: 6210062129359171383}
   dizzinessTime: 3
+  audioSource: {fileID: 8503166216302284836}
+  dizzinessClip: {fileID: 8300000, guid: 80567d656909f435cacb2b287ed475ae, type: 3}
 --- !u!82 &8503166216302284836
 AudioSource:
   m_ObjectHideFlags: 0

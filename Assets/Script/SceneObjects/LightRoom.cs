@@ -52,6 +52,10 @@ namespace SceneObjects
         // Tracks temporary invincibility after LightOn is called.
         private bool invincible = false;
 
+        [Header("Audio")]
+        [SerializeField] private AudioSource audioSource;
+        [SerializeField] private AudioClip lightOffClip;
+
         [Tooltip("C# event invoked when the room transitions from dark to light.")]
         public event Action LightTurnedOn;
         [Tooltip("C# event invoked when the room transitions from light to dark.")]
@@ -66,6 +70,9 @@ namespace SceneObjects
         {
             if (!allRooms.Contains(this))
                 allRooms.Add(this);
+
+            // Subscribe to our own event to play sound when the light turns off.
+            LightTurnedOff += HandleLightTurnedOff;
         }
 
         private void OnDisable()
@@ -76,6 +83,8 @@ namespace SceneObjects
             riseCoroutine = null;
             invincibleCoroutine = null;
             invincible = false;
+            // Unsubscribe our handler.
+            LightTurnedOff -= HandleLightTurnedOff;
             // Consumers may unsubscribe from C# events; we don't clear them here automatically.
         }
 
@@ -165,6 +174,25 @@ namespace SceneObjects
             }
 
             
+        }
+
+        // Play the configured audio clip when the light turns off.
+        private void HandleLightTurnedOff()
+        {
+            if (audioSource == null)
+                audioSource = GetComponent<AudioSource>();
+
+            if (audioSource == null || lightOffClip == null)
+                return;
+
+            try
+            {
+                audioSource.PlayOneShot(lightOffClip);
+            }
+            catch (Exception)
+            {
+                // Swallow audio exceptions to avoid breaking game loop.
+            }
         }
 
         /// <summary>

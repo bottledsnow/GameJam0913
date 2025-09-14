@@ -11,10 +11,18 @@ public class PlayerDizziness : MonoBehaviour
     private bool isDizziness = false;
     [SerializeField] private float dizzinessTime = 3.00f;
 
+    [Header("Audio")]
+    [SerializeField] private AudioSource audioSource;
+    [SerializeField] private AudioClip dizzinessClip;
+
     private void Awake()
     {
         playerMovement = GetComponent<PlayerMovement>();
         playermovespeed = playerMovement.speed;
+
+    // If AudioSource not assigned in inspector, try to get one from the same GameObject.
+    if (audioSource == null)
+        audioSource = GetComponent<AudioSource>();
     }
 
     private void FixedUpdate()
@@ -26,10 +34,26 @@ public class PlayerDizziness : MonoBehaviour
     }
     private void OnTriggerEnter(Collider other)
     {
-        if(other.gameObject.tag == "EnemyDamage")
+        if (other.gameObject.tag == "EnemyDamage")
         {
             if (!isDizziness)
             {
+                // Play immediate sound on trigger enter if available.
+                if (audioSource == null)
+                    audioSource = GetComponent<AudioSource>();
+
+                if (audioSource != null && dizzinessClip != null)
+                {
+                    try
+                    {
+                        audioSource.PlayOneShot(dizzinessClip);
+                    }
+                    catch
+                    {
+                        // Swallow audio exceptions to avoid breaking game loop.
+                    }
+                }
+
                 StartCoroutine(dizziness());
             }
         }
@@ -37,9 +61,26 @@ public class PlayerDizziness : MonoBehaviour
     IEnumerator dizziness()
     {
         Parti_Dizz.gameObject.SetActive(true);
+
+        // Play the dizziness clip when the effect starts.
+        if (audioSource == null)
+            audioSource = GetComponent<AudioSource>();
+
+        if (audioSource != null && dizzinessClip != null)
+        {
+            try
+            {
+                audioSource.PlayOneShot(dizzinessClip);
+            }
+            catch
+            {
+                // Swallow audio exceptions to avoid breaking game loop.
+            }
+        }
+
         playerMovement.speed = 0;
         isDizziness = true;
-        yield return new WaitForSeconds(dizzinessTime); // ¨ü timeScale ¼vÅT
+        yield return new WaitForSeconds(dizzinessTime); // ï¿½ï¿½ timeScale ï¿½vï¿½T
         playerMovement.speed = playermovespeed;
         isDizziness = false;
         Parti_Dizz.gameObject.SetActive(false);
