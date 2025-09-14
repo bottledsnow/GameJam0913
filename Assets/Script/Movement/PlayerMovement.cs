@@ -17,6 +17,12 @@ namespace Movement
 
         // Latest movement vector provided by input event (X,Y)
         private Vector2 _currentMove = Vector2.zero;
+        private PlayerState playerState;
+        public event Action<Move> OnSateChange;
+        private void Awake()
+        {
+            playerState = GetComponent<PlayerState>();
+        }
 
         private void OnValidate()
         {
@@ -51,6 +57,31 @@ namespace Movement
 
             // Apply movement using position (frame-rate independent).
             rb.MovePosition(transform.position + move3 * (speed * Time.deltaTime));
+
+            
+            //ChangePlayerDirection
+            if(_currentMove.x > 0)
+            {
+                OnSateChange?.Invoke(Move.Right);
+                playerState.ChangeDirection(Move.Right);
+            }
+            else if(_currentMove.x < 0)
+            {
+                OnSateChange?.Invoke(Move.Left);
+                playerState.ChangeDirection(Move.Left);
+            }
+            else if(_currentMove.y > 0)
+            {
+                OnSateChange?.Invoke(Move.Up);
+                playerState.ChangeDirection(Move.Up);
+            }
+            else if(_currentMove.y < 0)
+            {
+                OnSateChange?.Invoke(Move.Down);
+                playerState.ChangeDirection(Move.Down);
+            }
+
+
 
             // Simple footsteps check
             if (_currentMove.sqrMagnitude > 0.01f)
