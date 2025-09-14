@@ -13,6 +13,7 @@ public class GameManager : MonoBehaviour
     [SerializeField] private GameObject ConutDown_2;
     [SerializeField] private GameObject ConutDown_1;
     [SerializeField] private GameObject ConutDown_All;
+    [SerializeField] private GameObject GameStartUI;
 
     private Pause pause;
     private void Awake()
@@ -32,6 +33,11 @@ public class GameManager : MonoBehaviour
     {
         pause.enabled = false;
         Time.timeScale = 0;
+        yield return new WaitForSecondsRealtime(1);
+        GameStartUI.SetActive(false);  
+        ConutDown_3.SetActive(false);
+        ConutDown_2.SetActive(false);
+        ConutDown_1.SetActive(false);
         ConutDown_All.SetActive(true);
         ConutDown_3.SetActive(true);
         ConutDown_2.SetActive(false);
@@ -48,9 +54,13 @@ public class GameManager : MonoBehaviour
         ConutDown_3.SetActive(false);
         ConutDown_2.SetActive(false);
         ConutDown_1.SetActive(false);
-        ConutDown_All.SetActive(false);
         GameTimer.StartTimer(gameTime);
+        ConutDown_All.SetActive(false);
         Time.timeScale = 1;
         pause.enabled = true;
+        GameStartUI.SetActive(true);
+        yield return new WaitForSecondsRealtime(1);
+        GameStartUI.SetActive(false);
+        
     }
 }
