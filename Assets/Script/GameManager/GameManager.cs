@@ -15,11 +15,13 @@ public class GameManager : MonoBehaviour
     [SerializeField] private GameObject ConutDown_All;
     [SerializeField] private GameObject GameStartUI;
 
-    [SerializeField] private GameObject Ending;
     private Pause pause;
+    [Header("Ending")]
+    [SerializeField]  private GameObject Ending;
     private void Awake()
     {
         pause = GetComponent<Pause>();
+        GameTimer.TimerEnded += toEnd;
         if (pause == null)
         {
             Debug.LogError("Pause component not found on GameManager.");
@@ -29,6 +31,10 @@ public class GameManager : MonoBehaviour
     private void Start()
     {
         StartCoroutine(starGame());
+    }
+    private void toEnd()
+    {
+        Ending.SetActive(true);
     }
     IEnumerator starGame()
     {
@@ -62,6 +68,5 @@ public class GameManager : MonoBehaviour
         GameStartUI.SetActive(true);
         yield return new WaitForSecondsRealtime(1);
         GameStartUI.SetActive(false);
-        
     }
 }
