@@ -5,6 +5,7 @@ using System;
 public class Room : MonoBehaviour
 {
     [SerializeField] private Animator room;
+    [SerializeField] private Customer customer;
     public LightRoom lightroom;
 
     private RoomStar roomStar;
@@ -20,10 +21,12 @@ public class Room : MonoBehaviour
         room.Play("LightOn");
         lightroom.LightOn();
         roomStar.SeLightState(true);
+        customer.resetShock();
     }
     public void lightOut()
     {
         room.Play("LightOut");
         roomStar.SeLightState(false);
+        customer.Shock();
     }
 }
