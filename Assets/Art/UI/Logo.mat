@@ -54,10 +54,10 @@ Material:
         m_Offset: {x: 0, y: 0}
     m_Ints: []
     m_Floats:
-    - _DistortionStrength: 0
+    - _DistortionStrength: 0.28
     - _FlickStrength: 0.35
     - _GlitchStrength: 1
-    - _NoiseAmount: 0
+    - _NoiseAmount: 150
     - _QueueControl: 0
     - _QueueOffset: 0
     - _ScanLinesSpeed: 10
