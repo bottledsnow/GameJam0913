@@ -15,6 +15,7 @@ public class GameManager : MonoBehaviour
     [SerializeField] private GameObject ConutDown_All;
     [SerializeField] private GameObject GameStartUI;
 
+    [SerializeField] private GameObject Ending;
     private Pause pause;
     private void Awake()
     {
