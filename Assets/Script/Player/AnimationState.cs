@@ -7,4 +7,5 @@ public enum AnimationStateEnum
     Scared,
     Clapping,
     Shock,
+    Use,
 }

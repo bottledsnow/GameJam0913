@@ -8,12 +8,14 @@ public class CharacterAnimationStateData
     [SerializeField] public string animationName;
     [SerializeField] public bool isLoop = true; // 是否重複播放
 
+    
     public CharacterAnimationStateData(AnimationStateEnum state, string animationName, bool isLoop = true)
     {
         this.state = state;
         this.animationName = animationName;
     }
 
+    [System.Serializable]
     public class DirectionRotationData
     {
         [SerializeField] public Move direction;

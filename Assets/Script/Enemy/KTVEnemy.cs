@@ -5,6 +5,8 @@ using System.Collections;
 
 public class KTVEnemy : MonoBehaviour
 {
+    public static KTVEnemy instance;
+
     private Transform ktvEnemy;
     private Rigidbody rb;
 
@@ -21,6 +23,7 @@ public class KTVEnemy : MonoBehaviour
     [Header("Room")]
     public float stayTime = 1f;
 
+    public CharacterAnimationController characterAnimationController;
     public event Action<Move> OnEnemyChangeDirection;
 
     private void Awake()
@@ -44,15 +47,14 @@ public class KTVEnemy : MonoBehaviour
     {
         if(dir.x > 0.5f)
         {
-            OnEnemyChangeDirection?.Invoke(Move.Right);
-            Right.ColorToGreen();
+            characterAnimationController.ChangeFacing(Move.Right);            Right.ColorToGreen();
             Left.ColorToRed();
             Up.ColorToRed();
             Down.ColorToRed();
         }
         else if(dir.x < -0.5f)
         {
-            OnEnemyChangeDirection?.Invoke(Move.Left);
+            characterAnimationController.ChangeFacing(Move.Left);
             Right.ColorToRed();
             Left.ColorToGreen();
             Up.ColorToRed();
@@ -60,15 +62,15 @@ public class KTVEnemy : MonoBehaviour
         }
         else if(dir.y > 0.5f)
         {
-            OnEnemyChangeDirection?.Invoke(Move.Up);
-            Right.ColorToRed();
+            characterAnimationController.ChangeFacing(Move.Up);
+             Right.ColorToRed();
             Left.ColorToRed();
             Up.ColorToGreen();
             Down.ColorToRed();
         }
         else if(dir.y < -0.5f)
         {
-            OnEnemyChangeDirection?.Invoke(Move.Down);
+            characterAnimationController.ChangeFacing(Move.Down);
             Right.ColorToRed();
             Left.ColorToRed();
             Up.ColorToRed();
@@ -78,9 +80,14 @@ public class KTVEnemy : MonoBehaviour
     }
     public IEnumerator ToTurnLightOn()
     {
+        Debug.Break();
+        Debug.Log("TurnLightOn Start");
         speedDelta = 0;
-        yield return new WaitForSeconds(stayTime); // ¨ü timeScale ¼vÅT
+        characterAnimationController.ChangeState(AnimationStateEnum.Use);
+        yield return new WaitForSeconds(stayTime); // ï¿½ï¿½ timeScale ï¿½vï¿½T
+        characterAnimationController.ChangeState(AnimationStateEnum.Walk);
         speedDelta = moveSpeed;
+        Debug.Log("TurnLightOn End");
     }
     //OnEnemyChangeDirection(Move.Down);
 }
