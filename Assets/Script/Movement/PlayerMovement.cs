@@ -10,6 +10,7 @@ namespace Movement
          public float speed = 5f;
 
         [SerializeField] private Rigidbody rb;
+        [SerializeField] private AudioSource aud;
 
         // Frontend-facing event: subscribers receive the current move vector (X,Y) whenever it changes.
         public event Action<Vector2> onMoveChanged;
@@ -50,6 +51,16 @@ namespace Movement
 
             // Apply movement using position (frame-rate independent).
             rb.MovePosition(transform.position + move3 * (speed * Time.deltaTime));
+
+            // Simple footsteps check
+            if (_currentMove.sqrMagnitude > 0.01f)
+            {
+                if (!aud.isPlaying) aud.Play();
+            }
+            else
+            {
+                if (aud.isPlaying) aud.Stop();
+            }
         }
     }
 }
