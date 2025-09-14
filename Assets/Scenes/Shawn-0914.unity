@@ -9258,7 +9258,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   GameTimer: {fileID: 1601410913}
-  gameTime: 50
+  gameTime: 60
   ConutDown_3: {fileID: 937968264}
   ConutDown_2: {fileID: 2134867520}
   ConutDown_1: {fileID: 2051434790}
@@ -10908,7 +10908,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 90440b2927e5281479697e1e27788aef, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  level: Shawn
+  level: Shawn-0914
 --- !u!114 &1519563627
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -12785,7 +12785,7 @@ GameObject:
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
-  m_IsActive: 1
+  m_IsActive: 0
 --- !u!114 &1972494101
 MonoBehaviour:
   m_ObjectHideFlags: 0
