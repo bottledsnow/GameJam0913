@@ -161,6 +161,8 @@ namespace SceneObjects
             {
                 // Swallow exceptions from external subscribers to avoid breaking game loop.
             }
+
+            playerMovement.PlayerCloseTheLight();
         }
 
         /// <summary>
@@ -176,7 +178,7 @@ namespace SceneObjects
             // Clear dark state immediately.
             lightout = false;
 
-            playerMovement.PlayerCloseTheLight();
+            
             // If we transitioned from dark -> light, notify listeners.
             if (wasLightOut)
             {
