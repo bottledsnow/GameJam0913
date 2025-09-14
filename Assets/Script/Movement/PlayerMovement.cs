@@ -19,6 +19,9 @@ namespace Movement
         private Vector2 _currentMove = Vector2.zero;
         private PlayerState playerState;
         public event Action<Move> OnSateChange;
+
+         [SerializeField] private CharacterAnimationController characterAnimationController;
+
         private void Awake()
         {
             playerState = GetComponent<PlayerState>();
@@ -64,21 +67,25 @@ namespace Movement
             {
                 OnSateChange?.Invoke(Move.Right);
                 playerState.ChangeDirection(Move.Right);
+                characterAnimationController.ChangeFacing(Move.Right);
             }
             else if(_currentMove.x < 0)
             {
                 OnSateChange?.Invoke(Move.Left);
                 playerState.ChangeDirection(Move.Left);
+                characterAnimationController.ChangeFacing(Move.Left);
             }
             else if(_currentMove.y > 0)
             {
                 OnSateChange?.Invoke(Move.Up);
                 playerState.ChangeDirection(Move.Up);
+                characterAnimationController.ChangeFacing(Move.Up);
             }
             else if(_currentMove.y < 0)
             {
                 OnSateChange?.Invoke(Move.Down);
                 playerState.ChangeDirection(Move.Down);
+                characterAnimationController.ChangeFacing(Move.Down);                playerState.ChangeDirection(Move.Down);
             }
 
 
