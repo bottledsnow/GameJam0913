@@ -14833,7 +14833,7 @@ PrefabInstance:
       objectReference: {fileID: 2060728094}
     - target: {fileID: 1064547392850571718, guid: 1d966cb7895e3334680d87d065ad5c85, type: 3}
       propertyPath: secBeforeLightOut
-      value: 0.5
+      value: 1
       objectReference: {fileID: 0}
     - target: {fileID: 2360888615288500248, guid: 1d966cb7895e3334680d87d065ad5c85, type: 3}
       propertyPath: m_LocalPosition.x
