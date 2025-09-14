@@ -1,4 +1,5 @@
 using UnityEngine;
+using System;
 
 public class RoomStar : MonoBehaviour
 {
@@ -10,6 +11,8 @@ public class RoomStar : MonoBehaviour
     private int starCount = 1;
     private int maxStarCount = 5;
 
+    public event Action OnStarCountChanged;
+    public int GetStarCount() { return starCount; }
     public void SeLightState(bool state)
     {
         isLightOn = state;
@@ -60,6 +63,7 @@ public class RoomStar : MonoBehaviour
     }
     private void ChangeStarCount(int count)
     {
+        OnStarCountChanged?.Invoke();
         particle_star.emission.SetBurst(0, new ParticleSystem.Burst(0.0f, (short)count));
     }
 }
