@@ -28,6 +28,7 @@ public class Customer : MonoBehaviour
             customer.SetBool("Shock", false);
         }
         Parti_sing.SetActive(true);
+        Parti_shock.SetActive(false);
     }
     IEnumerator InShock()
     {
