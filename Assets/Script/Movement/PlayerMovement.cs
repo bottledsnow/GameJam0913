@@ -24,6 +24,7 @@ namespace Movement
 
         public void PlayerCloseTheLight()
         {
+            characterAnimationController.ChangeState(AnimationStateEnum.Use);
             OnLightClose?.Invoke();
         }
         private void Awake()
