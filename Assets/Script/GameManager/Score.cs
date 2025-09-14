@@ -8,6 +8,10 @@ public class Score : MonoBehaviour
     [SerializeField] private TextMeshProUGUI text_score;
     [Header("Score")]
     [SerializeField] private float score = 0;
+    public float GetScore()
+    {
+        return score;
+    }
     private void Awake()
     {
         foreach (RoomStar star in stars)

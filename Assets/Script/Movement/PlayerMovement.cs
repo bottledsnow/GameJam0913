@@ -19,9 +19,13 @@ namespace Movement
         private Vector2 _currentMove = Vector2.zero;
         private PlayerState playerState;
         public event Action<Move> OnSateChange;
-
+        public event Action OnLightClose;
          [SerializeField] private CharacterAnimationController characterAnimationController;
 
+        public void PlayerCloseTheLight()
+        {
+            OnLightClose?.Invoke();
+        }
         private void Awake()
         {
             playerState = GetComponent<PlayerState>();

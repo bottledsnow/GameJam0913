@@ -9,8 +9,11 @@ EditorBuildSettings:
     path: Assets/Scenes/Menu.unity
     guid: dc64205abfcf08a4eb4fb02bee51b194
   - enabled: 1
-    path: Assets/Scenes/Shawn.unity
-    guid: 99c9720ab356a0642a771bea13969a05
+    path: Assets/Scenes/ScoreTest.unity
+    guid: a3fa20a9b8150254683814af7bc45a3e
+  - enabled: 1
+    path: Assets/Scenes/Shawn-0914.unity
+    guid: 4468b03a80adcdb4f9ae206d8cd9c64d
   m_configObjects:
     com.unity.input.settings.actions: {fileID: -944628639613478452, guid: 052faaac586de48259a63d0c4782560b, type: 3}
   m_UseUCBPForAssetBundles: 0
