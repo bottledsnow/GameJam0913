@@ -80,9 +80,14 @@ public class KTVEnemy : MonoBehaviour
     }
     public IEnumerator ToTurnLightOn()
     {
+        Debug.Break();
+        Debug.Log("TurnLightOn Start");
         speedDelta = 0;
+        characterAnimationController.ChangeState(AnimationStateEnum.Use);
         yield return new WaitForSeconds(stayTime); // �� timeScale �v�T
+        characterAnimationController.ChangeState(AnimationStateEnum.Walk);
         speedDelta = moveSpeed;
+        Debug.Log("TurnLightOn End");
     }
     //OnEnemyChangeDirection(Move.Down);
 }

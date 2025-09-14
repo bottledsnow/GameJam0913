@@ -29,8 +29,8 @@ public class CharacterAnimationController : MonoBehaviour
     {
         new DirectionRotationData(Move.Up, 0f),
         new DirectionRotationData(Move.Down, 180f),
-        new DirectionRotationData(Move.Left, 90f),
-        new DirectionRotationData(Move.Right, 270f)
+        new DirectionRotationData(Move.Left, 270),
+        new DirectionRotationData(Move.Right, 90)
     };
 
     [Header("Current State")]
@@ -46,6 +46,7 @@ public class CharacterAnimationController : MonoBehaviour
         {
             Debug.LogError("Animation component not found! Please add an Animation component to this GameObject.");
         }
+        ChangeStateAndFacing(currentState, currentMove);
     }
 
     void Start()
