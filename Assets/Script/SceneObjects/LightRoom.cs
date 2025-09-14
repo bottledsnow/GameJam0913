@@ -121,6 +121,8 @@ namespace SceneObjects
         private IEnumerator PlayerStayedCoroutine()
         {
             // Wait the configured time; if the player remains, mark room as lightout.
+            yield return new WaitForSeconds(0.25f);
+            playerMovement.PlayerCloseTheLight();
             yield return new WaitForSeconds(secBeforeLightOut);
             playerWaitCoroutine = null;
 
@@ -162,7 +164,7 @@ namespace SceneObjects
                 // Swallow exceptions from external subscribers to avoid breaking game loop.
             }
 
-            playerMovement.PlayerCloseTheLight();
+            
         }
 
         /// <summary>

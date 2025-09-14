@@ -4961,7 +4961,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   playerMovement: {fileID: 0}
-  secBeforeLightOut: 1
+  secBeforeLightOut: 0.5
   riseRate: 1
   maxRate: 5
   lightOnTime: 0.5
