@@ -19,6 +19,7 @@ namespace SceneObjects
     [RequireComponent(typeof(Collider))]
     public class LightRoom : MonoBehaviour
     {
+        [SerializeField] private PlayerMovement playerMovement;
         [Tooltip("Time (in seconds) the player must stay in the trigger before the room goes dark.")] [SerializeField]
         private float secBeforeLightOut = 3f;
 
@@ -60,6 +61,7 @@ namespace SceneObjects
         public bool LightOut => lightout;
         public float Rate => rate;
 
+        
         private void OnEnable()
         {
             if (!allRooms.Contains(this))
@@ -144,7 +146,6 @@ namespace SceneObjects
 
             // When room goes dark, set rate to 1 immediately and stop rise coroutine.
             rate = 1f;
-
             if (riseCoroutine != null)
             {
                 StopCoroutine(riseCoroutine);
@@ -175,6 +176,7 @@ namespace SceneObjects
             // Clear dark state immediately.
             lightout = false;
 
+            playerMovement.PlayerCloseTheLight();
             // If we transitioned from dark -> light, notify listeners.
             if (wasLightOut)
             {
