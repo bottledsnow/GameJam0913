@@ -54,7 +54,6 @@ GameObject:
   serializedVersion: 6
   m_Component:
   - component: {fileID: 1455288282741606822}
-  - component: {fileID: 4101476433821760372}
   - component: {fileID: 100467863242997838}
   m_Layer: 0
   m_Name: Collider-Damage
@@ -78,27 +77,6 @@ Transform:
   m_Children: []
   m_Father: {fileID: 7985207634458414786}
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
---- !u!65 &4101476433821760372
-BoxCollider:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 983192079230502927}
-  m_Material: {fileID: 0}
-  m_IncludeLayers:
-    serializedVersion: 2
-    m_Bits: 1
-  m_ExcludeLayers:
-    serializedVersion: 2
-    m_Bits: 0
-  m_LayerOverridePriority: 0
-  m_IsTrigger: 1
-  m_ProvidesContacts: 0
-  m_Enabled: 1
-  serializedVersion: 3
-  m_Size: {x: 0.1, y: 0.1, z: 0.1}
-  m_Center: {x: 0, y: 0, z: 0}
 --- !u!135 &100467863242997838
 SphereCollider:
   m_ObjectHideFlags: 0
@@ -150,6 +128,7 @@ Transform:
   m_ConstrainProportionsScale: 0
   m_Children:
   - {fileID: 5407237488779554495}
+  - {fileID: 2279823700411332695}
   m_Father: {fileID: 7985207634458414786}
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
 --- !u!1 &3100354778137426428
@@ -438,7 +417,7 @@ Rigidbody:
   m_UseGravity: 0
   m_IsKinematic: 0
   m_Interpolate: 0
-  m_Constraints: 112
+  m_Constraints: 120
   m_CollisionDetection: 0
 --- !u!114 &8286283276484124095
 MonoBehaviour:
@@ -463,7 +442,7 @@ MonoBehaviour:
   Left: {fileID: 4719090017076200787}
   Right: {fileID: 5159511814887578302}
   stayTime: 1.2
-  characterAnimationController: {fileID: 4883814803820979838}
+  characterAnimationController: {fileID: 3839862594781256657}
 --- !u!82 &9196816244398757239
 AudioSource:
   m_ObjectHideFlags: 0
@@ -561,6 +540,85 @@ AudioSource:
     m_PreInfinity: 2
     m_PostInfinity: 2
     m_RotationOrder: 4
+--- !u!1 &8235471201739150363
+GameObject:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  serializedVersion: 6
+  m_Component:
+  - component: {fileID: 2279823700411332695}
+  - component: {fileID: 3839862594781256657}
+  m_Layer: 0
+  m_Name: GameObject
+  m_TagString: Untagged
+  m_Icon: {fileID: 0}
+  m_NavMeshLayer: 0
+  m_StaticEditorFlags: 0
+  m_IsActive: 1
+--- !u!4 &2279823700411332695
+Transform:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 8235471201739150363}
+  serializedVersion: 2
+  m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
+  m_LocalPosition: {x: 0, y: 0, z: 0}
+  m_LocalScale: {x: 1, y: 1, z: 1}
+  m_ConstrainProportionsScale: 0
+  m_Children: []
+  m_Father: {fileID: 2655401261769254597}
+  m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
+--- !u!114 &3839862594781256657
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 8235471201739150363}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 296645bba6b4b4070b839b371777daed, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  animator: {fileID: 2155659669674964165}
+  stateSettings:
+  - state: 0
+    animationName: Idle
+    isLoop: 1
+  - state: 2
+    animationName: Walk
+    isLoop: 1
+  - state: 3
+    animationName: Run
+    isLoop: 1
+  - state: 1
+    animationName: Scare
+    isLoop: 1
+  - state: 4
+    animationName: Scared
+    isLoop: 1
+  - state: 5
+    animationName: Clapping
+    isLoop: 1
+  - state: 7
+    animationName: Clerk_Clerk_Button
+    isLoop: 1
+  testPlayAnimation: 0
+  directionSettings:
+  - direction: 0
+    rotationY: 0
+  - direction: 1
+    rotationY: 180
+  - direction: 2
+    rotationY: 270
+  - direction: 3
+    rotationY: 90
+  currentMove: 1
+  currentState: 2
 --- !u!1001 &5512657343778392404
 PrefabInstance:
   m_ObjectHideFlags: 0
@@ -575,7 +633,7 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: -8679921383154817045, guid: cabcdcb2b8e0ccb47a59209e241ad826, type: 3}
       propertyPath: m_LocalPosition.y
-      value: 0
+      value: 0.2
       objectReference: {fileID: 0}
     - target: {fileID: -8679921383154817045, guid: cabcdcb2b8e0ccb47a59209e241ad826, type: 3}
       propertyPath: m_LocalPosition.z
@@ -617,71 +675,20 @@ PrefabInstance:
       propertyPath: m_Controller
       value: 
       objectReference: {fileID: 9100000, guid: 3196be0b6e9121944b6b39c21c0ff001, type: 2}
+    - target: {fileID: 5866666021909216657, guid: cabcdcb2b8e0ccb47a59209e241ad826, type: 3}
+      propertyPath: m_ApplyRootMotion
+      value: 0
+      objectReference: {fileID: 0}
     m_RemovedComponents: []
     m_RemovedGameObjects: []
     m_AddedGameObjects: []
-    m_AddedComponents:
-    - targetCorrespondingSourceObject: {fileID: 919132149155446097, guid: cabcdcb2b8e0ccb47a59209e241ad826, type: 3}
-      insertIndex: -1
-      addedObject: {fileID: 4883814803820979838}
+    m_AddedComponents: []
   m_SourcePrefab: {fileID: 100100000, guid: cabcdcb2b8e0ccb47a59209e241ad826, type: 3}
 --- !u!95 &2155659669674964165 stripped
 Animator:
   m_CorrespondingSourceObject: {fileID: 5866666021909216657, guid: cabcdcb2b8e0ccb47a59209e241ad826, type: 3}
   m_PrefabInstance: {fileID: 5512657343778392404}
   m_PrefabAsset: {fileID: 0}
---- !u!1 &4630137423354999813 stripped
-GameObject:
-  m_CorrespondingSourceObject: {fileID: 919132149155446097, guid: cabcdcb2b8e0ccb47a59209e241ad826, type: 3}
-  m_PrefabInstance: {fileID: 5512657343778392404}
-  m_PrefabAsset: {fileID: 0}
---- !u!114 &4883814803820979838
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 4630137423354999813}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 296645bba6b4b4070b839b371777daed, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
-  animator: {fileID: 2155659669674964165}
-  stateSettings:
-  - state: 0
-    animationName: Idle
-    isLoop: 1
-  - state: 2
-    animationName: Walk
-    isLoop: 1
-  - state: 3
-    animationName: Run
-    isLoop: 1
-  - state: 1
-    animationName: Scare
-    isLoop: 1
-  - state: 4
-    animationName: Scared
-    isLoop: 1
-  - state: 5
-    animationName: Clapping
-    isLoop: 1
-  - state: 7
-    animationName: Clerk_Clerk_Button
-    isLoop: 1
-  testPlayAnimation: 0
-  directionSettings:
-  - direction: 0
-    rotationY: 0
-  - direction: 1
-    rotationY: 180
-  - direction: 2
-    rotationY: 270
-  - direction: 3
-    rotationY: 90
-  currentMove: 1
-  currentState: 2
 --- !u!4 &5407237488779554495 stripped
 Transform:
   m_CorrespondingSourceObject: {fileID: -8679921383154817045, guid: cabcdcb2b8e0ccb47a59209e241ad826, type: 3}
