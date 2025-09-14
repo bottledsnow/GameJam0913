@@ -8977,9 +8977,13 @@ PrefabInstance:
       propertyPath: m_Name
       value: Freeze
       objectReference: {fileID: 0}
+    - target: {fileID: 8441861139795305703, guid: f7769a9777b879c438ee605986ecad68, type: 3}
+      propertyPath: m_IsActive
+      value: 0
+      objectReference: {fileID: 0}
     - target: {fileID: 9007776424496125173, guid: f7769a9777b879c438ee605986ecad68, type: 3}
       propertyPath: playOnAwake
-      value: 0
+      value: 1
       objectReference: {fileID: 0}
     m_RemovedComponents: []
     m_RemovedGameObjects: []
@@ -11530,6 +11534,10 @@ PrefabInstance:
       propertyPath: m_Name
       value: Customer
       objectReference: {fileID: 0}
+    - target: {fileID: 2230633036007668295, guid: b649bca64fef172458c655e6131268b5, type: 3}
+      propertyPath: m_LocalPosition.z
+      value: 1.461
+      objectReference: {fileID: 0}
     - target: {fileID: 4873489997339927344, guid: b649bca64fef172458c655e6131268b5, type: 3}
       propertyPath: m_LocalPosition.x
       value: 0
@@ -11569,6 +11577,14 @@ PrefabInstance:
     - target: {fileID: 4873489997339927344, guid: b649bca64fef172458c655e6131268b5, type: 3}
       propertyPath: m_LocalEulerAnglesHint.z
       value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 5344326933429912223, guid: b649bca64fef172458c655e6131268b5, type: 3}
+      propertyPath: m_LocalPosition.z
+      value: -0.465
+      objectReference: {fileID: 0}
+    - target: {fileID: 8541519344449296732, guid: b649bca64fef172458c655e6131268b5, type: 3}
+      propertyPath: m_LocalPosition.z
+      value: -1.45
       objectReference: {fileID: 0}
     m_RemovedComponents: []
     m_RemovedGameObjects: []
@@ -12068,6 +12084,10 @@ PrefabInstance:
       propertyPath: Parti_Dizz
       value: 
       objectReference: {fileID: 1079043531}
+    - target: {fileID: 3851191361196568523, guid: 7a3bfa88f9a794b819f67e7a3a80439d, type: 3}
+      propertyPath: dizzinessTime
+      value: 1
+      objectReference: {fileID: 0}
     - target: {fileID: 5952665564851388077, guid: 7a3bfa88f9a794b819f67e7a3a80439d, type: 3}
       propertyPath: m_LocalPosition.x
       value: 2
@@ -12108,6 +12128,10 @@ PrefabInstance:
       propertyPath: m_LocalEulerAnglesHint.z
       value: 0
       objectReference: {fileID: 0}
+    - target: {fileID: 6210062129359171383, guid: 7a3bfa88f9a794b819f67e7a3a80439d, type: 3}
+      propertyPath: playOnAwake
+      value: 1
+      objectReference: {fileID: 0}
     - target: {fileID: 6960071720493387508, guid: 7a3bfa88f9a794b819f67e7a3a80439d, type: 3}
       propertyPath: speed
       value: 2
@@ -12121,7 +12145,8 @@ PrefabInstance:
       value: player
       objectReference: {fileID: 0}
     m_RemovedComponents: []
-    m_RemovedGameObjects: []
+    m_RemovedGameObjects:
+    - {fileID: 7709320710680349965, guid: 7a3bfa88f9a794b819f67e7a3a80439d, type: 3}
     m_AddedGameObjects:
     - targetCorrespondingSourceObject: {fileID: 5952665564851388077, guid: 7a3bfa88f9a794b819f67e7a3a80439d, type: 3}
       insertIndex: 2

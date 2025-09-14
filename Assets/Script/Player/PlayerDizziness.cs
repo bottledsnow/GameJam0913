@@ -13,7 +13,6 @@ public class PlayerDizziness : MonoBehaviour
 
     private void Awake()
     {
-        Parti_Dizz.startLifetime = dizzinessTime;
         playerMovement = GetComponent<PlayerMovement>();
         playermovespeed = playerMovement.speed;
     }
@@ -37,13 +36,12 @@ public class PlayerDizziness : MonoBehaviour
     }
     IEnumerator dizziness()
     {
-        Parti_Dizz.Clear();
-        Parti_Dizz.Play();
+        Parti_Dizz.gameObject.SetActive(true);
         playerMovement.speed = 0;
         isDizziness = true;
         yield return new WaitForSeconds(dizzinessTime); // ¨ü timeScale ¼vÅT
         playerMovement.speed = playermovespeed;
         isDizziness = false;
-        Parti_Dizz.Clear();
+        Parti_Dizz.gameObject.SetActive(false);
     }
 }
